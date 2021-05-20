@@ -1,0 +1,286 @@
+{
+  "version": 1,
+  "cli": { "defaultCollection": "@nrwl/angular" },
+  "defaultProject": "container",
+  "schematics": {
+    "@nrwl/angular": {
+      "application": { "linter": "eslint" },
+      "library": { "linter": "eslint" },
+      "storybook-configuration": { "linter": "eslint" }
+    },
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": { "style": "scss" }
+  },
+  "projects": {
+    "container": {
+      "projectType": "application",
+      "root": "apps/container",
+      "sourceRoot": "apps/container/src",
+      "prefix": "ng12-module-fed",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist/apps/container",
+            "index": "apps/container/src/index.html",
+            "main": "apps/container/src/main.ts",
+            "polyfills": "apps/container/src/polyfills.ts",
+            "tsConfig": "apps/container/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/container/src/favicon.ico",
+              "apps/container/src/assets"
+            ],
+            "styles": ["apps/container/src/styles.scss"],
+            "scripts": [],
+            "extraWebpackConfig": "apps/container/webpack.config.js",
+            "commonChunk": false
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/container/src/environments/environment.ts",
+                  "with": "apps/container/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "apps/container/webpack.prod.config.js"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "container:build:production",
+              "extraWebpackConfig": "apps/container/webpack.prod.config.js"
+            },
+            "development": { "browserTarget": "container:build:development" }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "extraWebpackConfig": "apps/container/webpack.config.js",
+            "port": 4200
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": { "browserTarget": "container:build" }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/container/src/**/*.ts",
+              "apps/container/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/container"],
+          "options": {
+            "jestConfig": "apps/container/jest.config.js",
+            "passWithNoTests": true,
+            "extraWebpackConfig": "apps/container/webpack.config.js"
+          }
+        }
+      }
+    },
+    "container-e2e": {
+      "root": "apps/container-e2e",
+      "sourceRoot": "apps/container-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/container-e2e/cypress.json",
+            "tsConfig": "apps/container-e2e/tsconfig.e2e.json",
+            "devServerTarget": "container:serve:development"
+          },
+          "configurations": {
+            "production": { "devServerTarget": "container:serve:production" }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["apps/container-e2e/**/*.{js,ts}"] }
+        }
+      }
+    },
+    "corelib": {
+      "projectType": "library",
+      "root": "libs/corelib",
+      "sourceRoot": "libs/corelib/src",
+      "prefix": "ng12-module-fed",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/corelib"],
+          "options": {
+            "jestConfig": "libs/corelib/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/corelib/src/**/*.ts",
+              "libs/corelib/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "remote": {
+      "projectType": "application",
+      "root": "apps/remote",
+      "sourceRoot": "apps/remote/src",
+      "prefix": "ng12-module-fed",
+      "architect": {
+        "build": {
+          "builder": "ngx-build-plus:browser",
+          "options": {
+            "outputPath": "dist/apps/remote",
+            "index": "apps/remote/src/index.html",
+            "main": "apps/remote/src/main.ts",
+            "polyfills": "apps/remote/src/polyfills.ts",
+            "tsConfig": "apps/remote/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/remote/src/favicon.ico", "apps/remote/src/assets"],
+            "styles": ["apps/remote/src/styles.scss"],
+            "scripts": [],
+            "extraWebpackConfig": "apps/remote/webpack.config.js",
+            "commonChunk": false
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/remote/src/environments/environment.ts",
+                  "with": "apps/remote/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "apps/remote/webpack.prod.config.js"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "remote:build:production",
+              "extraWebpackConfig": "apps/remote/webpack.prod.config.js"
+            },
+            "development": { "browserTarget": "remote:build:development" }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "extraWebpackConfig": "apps/remote/webpack.config.js",
+            "port": 4201
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": { "browserTarget": "remote:build" }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/remote/src/**/*.ts",
+              "apps/remote/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/remote"],
+          "options": {
+            "jestConfig": "apps/remote/jest.config.js",
+            "passWithNoTests": true,
+            "extraWebpackConfig": "apps/remote/webpack.config.js"
+          }
+        }
+      }
+    },
+    "remote-e2e": {
+      "root": "apps/remote-e2e",
+      "sourceRoot": "apps/remote-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/remote-e2e/cypress.json",
+            "tsConfig": "apps/remote-e2e/tsconfig.e2e.json",
+            "devServerTarget": "remote:serve:development"
+          },
+          "configurations": {
+            "production": { "devServerTarget": "remote:serve:production" }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["apps/remote-e2e/**/*.{js,ts}"] }
+        }
+      }
+    }
+  }
+}
