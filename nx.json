@@ -32,9 +32,8 @@
     "remote": {
       "tags": []
     },
-    "remote-e2e": {
-      "tags": [],
-      "implicitDependencies": ["remote"]
+    "leftnav": {
+      "tags": []
     }
   }
 }

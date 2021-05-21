@@ -260,25 +260,100 @@
         }
       }
     },
-    "remote-e2e": {
-      "root": "apps/remote-e2e",
-      "sourceRoot": "apps/remote-e2e/src",
+    "leftnav": {
       "projectType": "application",
+      "root": "apps/leftnav",
+      "sourceRoot": "apps/leftnav/src",
+      "prefix": "ng12-module-fed",
       "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
+        "build": {
+          "builder": "ngx-build-plus:browser",
           "options": {
-            "cypressConfig": "apps/remote-e2e/cypress.json",
-            "tsConfig": "apps/remote-e2e/tsconfig.e2e.json",
-            "devServerTarget": "remote:serve:development"
+            "outputPath": "dist/apps/leftnav",
+            "index": "apps/leftnav/src/index.html",
+            "main": "apps/leftnav/src/main.ts",
+            "polyfills": "apps/leftnav/src/polyfills.ts",
+            "tsConfig": "apps/leftnav/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/leftnav/src/favicon.ico",
+              "apps/leftnav/src/assets"
+            ],
+            "styles": ["apps/leftnav/src/styles.scss"],
+            "scripts": [],
+            "extraWebpackConfig": "apps/leftnav/webpack.config.js",
+            "commonChunk": false
           },
           "configurations": {
-            "production": { "devServerTarget": "remote:serve:production" }
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/leftnav/src/environments/environment.ts",
+                  "with": "apps/leftnav/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "extraWebpackConfig": "apps/leftnav/webpack.prod.config.js"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "leftnav:build:production",
+              "extraWebpackConfig": "apps/leftnav/webpack.prod.config.js"
+            },
+            "development": { "browserTarget": "leftnav:build:development" }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "extraWebpackConfig": "apps/leftnav/webpack.config.js",
+            "port": 4202
           }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": { "browserTarget": "leftnav:build" }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["apps/remote-e2e/**/*.{js,ts}"] }
+          "options": {
+            "lintFilePatterns": [
+              "apps/leftnav/src/**/*.ts",
+              "apps/leftnav/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/leftnav"],
+          "options": {
+            "jestConfig": "apps/leftnav/jest.config.js",
+            "passWithNoTests": true,
+            "extraWebpackConfig": "apps/leftnav/webpack.config.js"
+          }
         }
       }
     }

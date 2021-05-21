@@ -1,10 +1,15 @@
-import { Directive, ViewContainerRef } from '@angular/core';
+import { Directive, Input, OnChanges, ViewContainerRef } from '@angular/core';
+import { DynamicLoader } from './dynamic-loader.service';
 
 @Directive({
   selector: '[ng12ModuleFedLoader]'
 })
-export class LoaderDirective {
+export class LoaderDirective implements OnChanges {
 
-  constructor(public viewContainerRef: ViewContainerRef) { }
+  @Input() public ng12ModuleFedLoader: { path: string; name: string; component: string; remoteComponent: string; };
+  constructor(private viewContainerRef: ViewContainerRef, private loader: DynamicLoader) { }
+  ngOnChanges(): void {
+    this.loader.loadComponent(this.viewContainerRef, this.ng12ModuleFedLoader);
+  }
 
 }
