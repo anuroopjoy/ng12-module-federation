@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '@ng12-module-fed/corelib';
+import { DynamicLoader } from './dynamic-loader.service';
 
 @Component({
   selector: 'ng12-module-fed-root',
@@ -11,20 +12,22 @@ export class AppComponent implements OnInit {
   appDetail = {
     path: '/remote/remoteEntry.js',
     name: 'remote',
-    component: 'RemoteComponent'
+    component: 'RemoteComponent',
   };
   leftnavDetail = {
     path: '/leftnav/leftNav.js',
     name: 'leftnav',
-    component: 'LeftNavComponent'
+    component: 'LeftNavComponent',
   };
 
-  constructor(private sharedService: SharedService) {
+  constructor(
+    private sharedService: SharedService,
+    private loader: DynamicLoader
+  ) {
     this.sharedService.id = 'container';
   }
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit(): void {
-    // this.loader.loadModule();
+    this.loader.loadModule();
   }
-
 }
