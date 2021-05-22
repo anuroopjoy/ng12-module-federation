@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'ng12-module-fed-root',
+  selector: 'left-nav',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
