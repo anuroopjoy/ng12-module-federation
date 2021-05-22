@@ -32,6 +32,7 @@ export class DynamicLoader {
                     loadChildren: () => m[module]
                 });
                 this.router.resetConfig(config);
+                this.router.navigateByUrl('/search');
             })
     }
 
