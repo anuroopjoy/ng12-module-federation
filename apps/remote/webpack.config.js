@@ -20,6 +20,18 @@ module.exports = {
       ...sharedMappings.getAliases(),
     },
   },
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
+    ],
+  },
   plugins: [
     new ModuleFederationPlugin({
       // For remotes (please adjust)
