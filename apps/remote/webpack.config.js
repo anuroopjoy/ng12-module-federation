@@ -35,16 +35,17 @@ module.exports = {
   plugins: [
     new ModuleFederationPlugin({
       // For remotes (please adjust)
-      // name: 'remote',
-      // filename: 'remoteEntry.js',
-      // exposes: {
-      //   './RemoteModule': './apps/remote/src/app/remote/remote.module.ts',
-      // },
       name: 'remote',
       filename: 'remoteEntry.js',
       exposes: {
-        './RemoteComponent': './apps/remote/src/app/remote/remote.component.ts',
+        './RemoteModule': './apps/remote/src/app/remote/remote.module.ts',
+        './RemoteAnimateModule': './apps/remote/src/app/remote-animate/remote-animate.module.ts'
       },
+      // name: 'remote',
+      // filename: 'remoteEntry.js',
+      // exposes: {
+      //   './RemoteComponent': './apps/remote/src/app/remote/remote.component.ts',
+      // },
 
       // For hosts (please adjust)
       // remotes: {

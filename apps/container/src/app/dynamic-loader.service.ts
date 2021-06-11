@@ -12,9 +12,8 @@ export class DynamicLoader {
         private componentFactoryResolver: ComponentFactoryResolver
     ) { }
 
-    public loadModule() {
+    public loadModule({ module, path }: { module: string, path: string }) {
         const cdnUrl = 'http://localhost:8080';
-        const module = 'RemoteModule';
         const appDetail = {
             path: '/remote/remoteEntry.js',
             name: 'remote',
@@ -32,7 +31,7 @@ export class DynamicLoader {
                     loadChildren: () => m[module]
                 });
                 this.router.resetConfig(config);
-                this.router.navigateByUrl('/search');
+                this.router.navigateByUrl(path);
             })
     }
 

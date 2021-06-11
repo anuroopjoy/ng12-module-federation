@@ -9,16 +9,16 @@ import { DynamicLoader } from './dynamic-loader.service';
 })
 export class AppComponent implements OnInit {
   title = 'container';
-  appDetail = {
-    path: '/remote/remoteEntry.js',
-    name: 'remote',
-    component: 'RemoteComponent',
-  };
-  leftnavDetail = {
-    path: '/leftnav/leftNav.js',
-    name: 'leftnav',
-    component: 'LeftNavComponent',
-  };
+  // appDetail = {
+  //   path: '/remote/remoteEntry.js',
+  //   name: 'remote',
+  //   component: 'RemoteComponent',
+  // };
+  // leftnavDetail = {
+  //   path: '/leftnav/leftNav.js',
+  //   name: 'leftnav',
+  //   component: 'LeftNavComponent',
+  // };
 
   constructor(
     private sharedService: SharedService,
@@ -26,8 +26,11 @@ export class AppComponent implements OnInit {
   ) {
     this.sharedService.id = 'container';
   }
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
+
   ngOnInit(): void {
-    // this.loader.loadModule();
+    this.loader.loadModule({ module: 'RemoteAnimateModule', path: '/animate' });
+    setTimeout(() => {
+      this.loader.loadModule({ module: 'RemoteModule', path: '/search' });
+    }, 10000);
   }
 }
