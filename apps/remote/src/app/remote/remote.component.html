@@ -4,7 +4,7 @@
     width="75"
     [src]="logo"
   />
-  <h1>Welcome to {{ title }}!</h1>
+  <h1>Welcome to {{ title }} {{ name }}!</h1>
 </header>
 <main>
   <h2>Resources &amp; Tools</h2>
@@ -16,7 +16,7 @@
       rel="noopener noreferrer"
     >
       If you like Nx, please give it a star:
-      <div class="github-star-badge">
+      <div class="github-star-badge" (click)="handleClick()">
         <svg
           class="material-icons"
           xmlns="http://www.w3.org/2000/svg"

@@ -6,7 +6,9 @@ import { DynamicLoader } from './dynamic-loader.service';
 })
 export class LoaderDirective implements OnChanges {
 
-  @Input() public ng12ModuleFedLoader: { path: string; name: string; component: string; remoteComponent: string; };
+  @Input() public ng12ModuleFedLoader: { path: string; name: string; component: string; remoteComponent: string;
+    input?: Record<string,string>,
+    output?: Record<string, any>};
   constructor(private viewContainerRef: ViewContainerRef, private loader: DynamicLoader) { }
   ngOnChanges(): void {
     this.loader.loadComponent(this.viewContainerRef, this.ng12ModuleFedLoader);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SharedService } from '@ng12-module-fed/corelib';
 import logo from '../../assets/nx-logo-white.svg';
 @Component({
@@ -8,9 +8,15 @@ import logo from '../../assets/nx-logo-white.svg';
   styleUrls: ['./remote.component.scss'],
 })
 export class RemoteComponent {
+  @Input() name: string;
+  @Output() emitclick = new EventEmitter();
   title = 'remote';
   logo = logo;
   constructor(private sharedService: SharedService) {
     this.sharedService.id = 'remote';
+  }
+
+  handleClick() {
+    this.emitclick.emit();
   }
 }

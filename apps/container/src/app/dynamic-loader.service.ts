@@ -36,7 +36,8 @@ export class DynamicLoader {
     }
 
     public loadComponent(viewContainerRef: ViewContainerRef,
-        appDetail: { path: string; name: string; component: string; remoteComponent: string; }) {
+        appDetail: { path: string; name: string; component: string; remoteComponent: string; input?: Record<string,string>,
+            output?: Record<string, any>}) {
         const cdnUrl = 'http://localhost:8080';
         if (!appDetail) return;
         loadRemoteModule({
@@ -47,7 +48,13 @@ export class DynamicLoader {
             .then(m => {
                 const componentFactory = this.componentFactoryResolver.resolveComponentFactory(m[appDetail.component]);
                 viewContainerRef.clear();
-                return viewContainerRef.createComponent(componentFactory);
+                const component =  viewContainerRef.createComponent(componentFactory);
+                for(const input of Object.keys(appDetail.input)){
+                    component.instance[input] = appDetail.input[input];
+                }
+                for(const output of Object.keys(appDetail.output)){
+                    component.instance[output].subscribe(appDetail.output[output]);
+                }
             })
     }
 }
