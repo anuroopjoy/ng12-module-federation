@@ -19,7 +19,7 @@ export class DynamicLoader {
             name: 'remote',
             module: `./${module}`
         }
-        loadRemoteModule({
+        return loadRemoteModule({
             remoteEntry: `${cdnUrl}${appDetail.path}`,
             remoteName: appDetail.name,
             exposedModule: appDetail.module

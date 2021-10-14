@@ -1,3 +1,6 @@
-<!-- <router-outlet></router-outlet> -->
+<ng12-module-fed-loader *ngIf="showLoader"></ng12-module-fed-loader>
+
+<router-outlet *ngIf="!showLoader"></router-outlet>
+
 <!-- <div [ng12ModuleFedLoader]="leftnavDetail"></div> -->
-<div [ng12ModuleFedLoader]="appDetail"></div>
+<!-- <div [ng12ModuleFedLoader]="appDetail"></div> -->

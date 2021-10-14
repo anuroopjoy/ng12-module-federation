@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedService } from '@ng12-module-fed/corelib';
+import { SharedService, LoaderService } from '@ng12-module-fed/corelib';
 import { DynamicLoader } from './dynamic-loader.service';
 
 @Component({
@@ -25,19 +25,34 @@ export class AppComponent implements OnInit {
   //   name: 'leftnav',
   //   component: 'LeftNavComponent',
   // };
+  showLoader = false;
 
   constructor(
     private sharedService: SharedService,
-    private loader: DynamicLoader
+    private appLoader: DynamicLoader,
+    private loaderService: LoaderService
   ) {
     this.sharedService.id = 'container';
   }
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngOnInit(): void {
-    // this.loader.loadModule({ module: 'RemoteAnimateModule', path: '/animate' });
-    // setTimeout(() => {
-    //   this.loader.loadModule({ module: 'RemoteModule', path: '/search' });
-    // }, 10000);
+  async ngOnInit() {
+    this.loaderService.loader.subscribe((val) => {
+      this.showLoader = val;
+    });
+    this.loaderService.showLoader(true);
+    await this.appLoader.loadModule({
+      module: 'RemoteAnimateModule',
+      path: '/animate',
+    });
+    this.loaderService.showLoader(false);
+    setTimeout(async () => {
+      this.loaderService.showLoader(true);
+      await this.appLoader.loadModule({
+        module: 'RemoteModule',
+        path: '/search',
+      });
+      this.loaderService.showLoader(false);
+    }, 10000);
   }
 }

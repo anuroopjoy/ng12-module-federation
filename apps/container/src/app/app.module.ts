@@ -6,12 +6,18 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { routes } from './routes';
 import { LoaderDirective } from './loader.directive';
+import { CorelibModule } from '@ng12-module-fed/corelib';
 
 @NgModule({
   declarations: [AppComponent, LoaderDirective],
-  imports: [BrowserModule, BrowserAnimationsModule, RouterModule.forRoot(routes, { useHash: true })],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    RouterModule.forRoot(routes, { useHash: true }),
+    CorelibModule
+  ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
