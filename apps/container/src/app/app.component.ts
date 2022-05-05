@@ -9,17 +9,17 @@ import { DynamicLoader } from './dynamic-loader.service';
 })
 export class AppComponent implements OnInit {
   title = 'container';
-  appDetail = {
-    path: '/remote/remoteEntry.js',
-    name: 'remote',
-    component: 'RemoteComponent',
-    input: { name: 'Anuroop' },
-    output: {
-      emitclick: () => {
-        console.log('star clicked');
-      },
-    },
-  };
+  // appDetail = {
+  //   path: '/remote/remoteEntry.js',
+  //   name: 'remote',
+  //   component: 'RemoteComponent',
+  //   input: { name: 'Anuroop' },
+  //   output: {
+  //     emitclick: () => {
+  //       console.log('star clicked');
+  //     },
+  //   },
+  // };
   // leftnavDetail = {
   //   path: '/leftnav/leftNav.js',
   //   name: 'leftnav',
@@ -35,7 +35,11 @@ export class AppComponent implements OnInit {
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit(): void {
-    // this.loader.loadModule({ module: 'RemoteAnimateModule', path: '/animate' });
+    this.loader.loadModule({ module: 'MatSelModule', path: '/select' });
+    const link = document.createElement('link');
+    link.href = 'http://localhost:8080/remote/styles.css';
+    link.rel = 'stylesheet';
+    document.body.appendChild(link);
     // setTimeout(() => {
     //   this.loader.loadModule({ module: 'RemoteModule', path: '/search' });
     // }, 10000);

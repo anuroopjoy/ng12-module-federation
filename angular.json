@@ -207,7 +207,7 @@
                   "with": "apps/remote/src/environments/environment.prod.ts"
                 }
               ],
-              "outputHashing": "all",
+              "outputHashing": "none",
               "extraWebpackConfig": "apps/remote/webpack.prod.config.js"
             },
             "development": {

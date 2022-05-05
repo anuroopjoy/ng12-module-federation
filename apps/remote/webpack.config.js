@@ -35,17 +35,20 @@ module.exports = {
   plugins: [
     new ModuleFederationPlugin({
       // For remotes (please adjust)
-      // name: 'remote',
-      // filename: 'remoteEntry.js',
-      // exposes: {
-      //   './RemoteModule': './apps/remote/src/app/remote/remote.module.ts',
-      //   './RemoteAnimateModule': './apps/remote/src/app/remote-animate/remote-animate.module.ts'
-      // },
       name: 'remote',
       filename: 'remoteEntry.js',
       exposes: {
-        './RemoteComponent': './apps/remote/src/app/remote/remote.component.ts',
+        './RemoteModule': './apps/remote/src/app/remote/remote.module.ts',
+        './RemoteAnimateModule':
+          './apps/remote/src/app/remote-animate/remote-animate.module.ts',
+        './MatSelModule':
+          './apps/remote/src/app/mat-sel/mat-sel.module.ts',
       },
+      // name: 'remote',
+      // filename: 'remoteEntry.js',
+      // exposes: {
+      //   './RemoteComponent': './apps/remote/src/app/remote/remote.component.ts',
+      // },
 
       // For hosts (please adjust)
       // remotes: {
@@ -58,6 +61,8 @@ module.exports = {
         '@angular/common': { singleton: true, strictVersion: true },
         '@angular/common/http': { singleton: true, strictVersion: true },
         '@angular/router': { singleton: true, strictVersion: true },
+        '@angular/material': { singleton: true, strictVersion: true },
+        '@angular/cdk': { singleton: true, strictVersion: true },
 
         ...sharedMappings.getDescriptors(),
       },
